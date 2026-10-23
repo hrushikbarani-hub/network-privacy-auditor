@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <meta
+      name="description"
+      content="Quiet Hours: audit DNS blocking with local aggregate-only reports. Browser processing and a read-only Pi-hole database tool."
+    />
+    <title>Quiet Hours / Privacy Auditor</title>
+    <link rel="stylesheet" href="style.css" />
+    <script type="module" src="app.js"></script>
+  </head>
+  <body>
+    <a class="skip" href="#main">Skip to audit</a>
+    <header>
+      <a class="brand" href="#main">◔ QUIET HOURS</a
+      ><span>LOCAL NETWORK / PRIVACY AUDIT</span
+      ><a href="https://hrushikbarani-hub.github.io/">hirsu ↗</a>
+    </header>
+    <main id="main">
+      <section class="intro">
+        <p>LESS HISTORY. MORE UNDERSTANDING.</p>
+        <h1>See the pattern.<br /><em>Keep the details private.</em></h1>
+        <p>
+          Review DNS blocking from local files. Keep daily counts. Leave
+          browsing histories out of the report.
+        </p>
+      </section>
+      <div class="layout">
+        <section class="panel import">
+          <h2>Bring a local file</h2>
+          <p>
+            CSV with <code>time,device,outcome</code>, or a JSON report from the
+            Python tool. Files are processed in this browser and are never
+            uploaded.
+          </p>
+          <label
+            >CSV or aggregate JSON<input
+              id="file"
+              type="file"
+              accept=".csv,.json,text/csv,application/json" /></label
+          ><label
+            >Keep UTC date buckets for<select id="days">
+              <option value="1">1 day</option>
+              <option value="7" selected>7 days</option>
+              <option value="30">30 days</option>
+            </select></label
+          ><button id="sample">Try a fictional sample</button>
+          <p class="help">
+            Outcomes: blocked, allowed or unknown. Time must include Z or an
+            explicit timezone. Extra CSV columns are ignored and never saved.
+          </p>
+          <details>
+            <summary>Using a Pi-hole database backup?</summary>
+            <p>
+              Run
+              <code>python audit.py backup.db --pihole --days 7</code> locally
+              and save its aggregate JSON output. Import that JSON here. The
+              tool queries only timestamp, status and client; domain values are
+              not selected.
+            </p>
+            <a
+              href="https://github.com/hrushikbarani-hub/network-privacy-auditor"
+              >Source, CSV format & local setup ↗</a
+            >
+          </details>
+        </section>
+        <section>
+          <p id="message" role="status"></p>
+          <div class="privacy-strip">
+            <span><b>0</b>raw rows saved by this app</span
+            ><span><b>0</b>device identifiers in reports</span
+            ><span><b>0</b>file uploads</span>
+          </div>
+          <div id="reports"></div>
+          <div class="panel" id="report"></div>
+        </section>
+      </div>
+      <section class="panel notes">
+        <h2>What the report can tell you</h2>
+        <p>
+          The blocked share describes query outcomes in the imported file. It
+          does not measure all ads removed, all tracking prevented, or the
+          security of the network. Unknown outcomes stay separate.
+        </p>
+        <p>
+          Distinct device counts are per date bucket within one import. They
+          cannot be added across days or overlapping files to obtain a
+          network-wide unique count. Separate imports are never merged
+          automatically.
+        </p>
+        <p>
+          Retention removes old aggregate date buckets on page load, import and
+          settings changes. The app cannot erase the original file on your
+          computer. Clearing site data also removes saved reports.
+        </p>
+        <button id="forget" class="danger">
+          Forget every saved aggregate report
+        </button>
+      </section>
+    </main>
+    <footer>
+      <span>BUILT BY HIRSU / INSPIRED BY A RASPBERRY PI HOME LAB</span
+      ><a href="https://github.com/hrushikbarani-hub/network-privacy-auditor"
+        >OPEN SOURCE ↗</a
+      >
+    </footer>
+  </body>
+</html>
