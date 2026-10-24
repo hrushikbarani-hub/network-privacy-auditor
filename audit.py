@@ -24,7 +24,6 @@ def aggregate(rows, now=None, days=7, source="csv"):
     now = now or datetime.now(timezone.utc)
     if not 1 <= days <= 30:
         raise ValueError("Use retention between 1 and 30 days.")
-    
     cutoff = (now - timedelta(days=days - 1)).date()
     buckets = {}
     skipped = 0
@@ -98,7 +97,6 @@ def pihole_rows(path, now, days):
         ) as db:
             db.execute("PRAGMA query_only=ON")
             db.execute("PRAGMA trusted_schema=OFF")
-            
             for timestamp, status, client in db.execute(
                 "SELECT timestamp,status,client FROM queries WHERE timestamp>=? AND timestamp<=? ORDER BY timestamp LIMIT 100001",
                 (cutoff, now.timestamp()),
