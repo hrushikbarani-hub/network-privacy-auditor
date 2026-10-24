@@ -12,7 +12,6 @@ from pathlib import Path
 BLOCKED = {1, 4, 5, 6, 7, 8, 9, 10, 11, 15, 16, 18}
 ALLOWED = {2, 3, 12, 13, 14, 17}
 
-
 def parse_time(value):
     if isinstance(value, (int, float)):
         return datetime.fromtimestamp(value, timezone.utc)
@@ -21,12 +20,11 @@ def parse_time(value):
         raise ValueError("Missing timezone.")
     return parsed.astimezone(timezone.utc)
 
-
 def aggregate(rows, now=None, days=7, source="csv"):
     now = now or datetime.now(timezone.utc)
     if not 1 <= days <= 30:
         raise ValueError("Use retention between 1 and 30 days.")
-    # Keep only whole UTC dates inside the retention window.
+    
     cutoff = (now - timedelta(days=days - 1)).date()
     buckets = {}
     skipped = 0
@@ -76,7 +74,6 @@ def aggregate(rows, now=None, days=7, source="csv"):
         "skipped": skipped,
     }
 
-
 def csv_rows(path):
     with open(path, encoding="utf-8-sig", newline="") as file:
         reader = csv.DictReader(file)
@@ -85,7 +82,6 @@ def csv_rows(path):
         ):
             raise ValueError("CSV needs time, device and outcome headers.")
         yield from reader
-
 
 def pihole_rows(path, now, days):
     source = Path(path).resolve()
@@ -102,7 +98,7 @@ def pihole_rows(path, now, days):
         ) as db:
             db.execute("PRAGMA query_only=ON")
             db.execute("PRAGMA trusted_schema=OFF")
-            # Deliberately exclude domain and additional_info from the projection.
+            
             for timestamp, status, client in db.execute(
                 "SELECT timestamp,status,client FROM queries WHERE timestamp>=? AND timestamp<=? ORDER BY timestamp LIMIT 100001",
                 (cutoff, now.timestamp()),
@@ -120,7 +116,6 @@ def pihole_rows(path, now, days):
         raise ValueError(
             "Cannot read the expected Pi-hole queries view. Use a compatible backup or the CSV adapter."
         ) from None
-
 
 def main():
     parser = argparse.ArgumentParser(
@@ -152,7 +147,6 @@ def main():
         )
         return 1
     return 0
-
 
 if __name__ == "__main__":
     raise SystemExit(main())
