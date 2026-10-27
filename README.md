@@ -36,6 +36,6 @@ python -m unittest discover -s tests -p "test_*.py" -v
 python -m http.server 8145 --bind 127.0.0.1 --directory web
 ```
 
-Open `http://127.0.0.1:8145`. Node.js 22+ is required only for development checks. Tests cover read-only database input, omitted private fields, retention, invalid-row errors, quoted CSV and the actual browser sample flow. Visual browser QA was unavailable during this release.
+Open `http://127.0.0.1:8145`. Node.js 22+ is required only for development checks. Tests cover read-only database input, omitted private fields, retention, invalid-row errors, quoted CSV and the actual browser sample flow. The interface still needs visual browser testing.
 
 The GitHub Actions workflow checks the code and publishes only `web` to free GitHub Pages. Built by [hirsu](https://hrushikbarani-hub.github.io/) from the Raspberry Pi homelab idea.
