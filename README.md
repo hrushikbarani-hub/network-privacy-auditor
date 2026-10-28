@@ -1,6 +1,6 @@
 # Quiet Hours: Local Network Privacy Auditor
 
-Review DNS blocking without saving a browsing history. [Open the browser app](https://hrushikbarani-hub.github.io/network-privacy-auditor/).
+Review DNS blocking without saving a browsing history. [Open the browser app](https://hirsu-dev.github.io/network-privacy-auditor/).
 
 Import a small CSV locally or generate an aggregate report from a Pi-hole database backup. The browser saves only daily counts and per-day distinct-device counts. There are no file uploads, accounts, external analytics, raw event records, domains or saved device identifiers.
 
@@ -38,4 +38,4 @@ python -m http.server 8145 --bind 127.0.0.1 --directory web
 
 Open `http://127.0.0.1:8145`. Node.js 22+ is required only for development checks. Tests cover read-only database input, omitted private fields, retention, invalid-row errors, quoted CSV and the actual browser sample flow. Visual browser QA was unavailable during this release.
 
-The GitHub Actions workflow checks the code and publishes only `web` to free GitHub Pages. Built by [hirsu](https://hrushikbarani-hub.github.io/) from the Raspberry Pi homelab idea.
+The GitHub Actions workflow checks the code and publishes only `web` to free GitHub Pages. Built by [hirsu](https://hirsu-dev.github.io/) from the Raspberry Pi homelab idea.
